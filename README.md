@@ -1,38 +1,47 @@
-# vue
+# Gestión de Clientes - Aplicación Fullstack
 
-This template should help get you started developing with Vue 3 in Vite.
+## 🌐 URLs de Producción
 
-## Recommended IDE Setup
+- **Frontend (Vue 3)**: [https://conflicttracker-frontend-three.vercel.app/]([url](https://conflicttracker-frontend-three.vercel.app/))
+- **Backend (Spring Boot)**: [https://conflicttracker-production-8ab6.up.railway.app/api]([url](https://conflicttracker-production-8ab6.up.railway.app/api))
+- **Base de Datos**: PostgreSQL en Supabase
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🏗️ Arquitectura
 
-## Recommended Browser Setup
+- **Frontend**: Vue 3 + Vite desplegado en Vercel
+- **Backend**: Spring Boot 3 + Java 17 desplegado en Railway
+- **Base de Datos**: PostgreSQL 15 en Supabase
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## 📋 Modificaciones Realizadas
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+#### 1. Configuración de Base de Datos
+**Problema**: La aplicación intentaba conectarse a `localhost:5432`
+**Solución**: Modificar `application.yml` para usar variables de entorno:
+```yaml
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 ```
 
-### Compile and Hot-Reload for Development
+#### 2. Configuración CORS
+**Problema**: Errores CORS al hacer peticiones desde Vercel
+**Solución**: Crear `WebConfig.java` con configuración CORS dinámica usando `FRONTEND_URL`
 
-```sh
-npm run dev
-```
+### Frontend (Vue)
 
-### Compile and Minify for Production
+#### 1. Variables de Entorno
+**Problema**: URLs hardcodeadas a `localhost:8080`
+**Solución**: Usar `import.meta.env.VITE_API_URL` y crear archivos `.env.production`
 
-```sh
-npm run build
-```
+#### 2. SPA Routing
+**Problema**: Error 404 al refrescar rutas en Vercel
+**Solución**: Crear `vercel.json` con rewrites para redirigir todo a `index.html`
+
+## 🚀 Cómo Replicar el Despliegue
+
+1. Crear proyecto en Supabase y obtener credenciales
+2. Configurar variables en Railway y desplegar desde GitHub
+3. Configurar variables en Vercel y desplegar desde GitHub
+4. Actualizar `FRONTEND_URL` en Railway con la URL final de Vercel
