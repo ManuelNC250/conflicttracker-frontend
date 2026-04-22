@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia'
 
-const API_URLS = [
-  'http://127.0.0.1:8080/api/v1/conflicts',
-  'http://localhost:8080/api/v1/conflicts'
-]
+const API_URL = import.meta.env.VITE_API_URL
+const CONFLICTS_ENDPOINT = `${API_URL}/v1/conflicts`
 
 export const useConflictStore = defineStore('conflicts', {
   state: () => ({
@@ -11,7 +9,7 @@ export const useConflictStore = defineStore('conflicts', {
     loading: false,
     error: null,
     readIds: new Set(),
-    apiBaseUrl: API_URLS[0]
+    apiBaseUrl: CONFLICTS_ENDPOINT
   }),
   getters: {
     totalCount: (state) => state.conflicts.length,
@@ -26,25 +24,12 @@ export const useConflictStore = defineStore('conflicts', {
       this.loading = true
       this.error = null
       try {
-        let lastError = null
-        for (const url of API_URLS) {
-          try {
-            const response = await fetch(url)
-            if (!response.ok) {
-              throw new Error(`API error: ${response.status}`)
-            }
-            const data = await response.json()
-            this.conflicts = Array.isArray(data) ? data : []
-            this.apiBaseUrl = url
-            lastError = null
-            break
-          } catch (error) {
-            lastError = error
-          }
+        const response = await fetch(this.apiBaseUrl)
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`)
         }
-        if (lastError) {
-          throw lastError
-        }
+        const data = await response.json()
+        this.conflicts = Array.isArray(data) ? data : []
       } catch (error) {
         this.error = error
       } finally {
