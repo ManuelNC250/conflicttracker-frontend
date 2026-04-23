@@ -3,7 +3,7 @@
 ## 🌐 URLs de Producción
 
 - **Frontend (Vue 3)**: [https://conflicttracker-frontend-three.vercel.app/]([url](https://conflicttracker-frontend-three.vercel.app/))
-- **Backend (Spring Boot)**: [https://conflicttracker-production-8ab6.up.railway.app/api]([url](https://conflicttracker-production-8ab6.up.railway.app/api))
+- **Backend (Spring Boot)**: [https://conflicttracker-production-8ab6.up.railway.app]([url](https://conflicttracker-production-8ab6.up.railway.app))
 - **Base de Datos**: PostgreSQL en Supabase
 
 ## 🏗️ Arquitectura
